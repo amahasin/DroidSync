@@ -5,6 +5,7 @@
   "description": "A Windows 11 app for mirroring and controlling Android devices, built on scrcpy",
   "main": "./out/main/index.js",
   "author": "amahasin",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "format": "prettier --write .",

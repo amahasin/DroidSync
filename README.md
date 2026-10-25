@@ -37,6 +37,10 @@ npm run build:win    # typecheck, build and make the installer in dist/
 
 Other commands: `npm test`, `npm run lint`, `npm run typecheck`. See [RELEASING.md](RELEASING.md) to publish a release.
 
+## Licence
+
+DroidSync is released under the [MIT licence](LICENSE).
+
 ## Credits
 
 DroidSync is not affiliated with Genymobile. scrcpy is their project, released under the Apache License 2.0.
