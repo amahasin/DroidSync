@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>DroidSync</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0E9F6E" />
+      <stop offset="1" stop-color="#1D4ED8" />
+    </linearGradient>
+  </defs>
+  <!-- Rounded square background -->
+  <rect x="16" y="16" width="480" height="480" rx="116" fill="url(#bg)" />
+  <!-- Two arrows chasing each other: sync -->
+  <g fill="none" stroke="#ffffff" stroke-width="34">
+    <path d="M104.1 175.3 A172 172 0 0 1 398.6 159.8" />
+    <path d="M407.9 336.7 A172 172 0 0 1 113.4 352.2" />
+  </g>
+  <g fill="#ffffff">
+    <polygon points="431.0,207.9 436.7,134.1 360.5,185.5" />
+    <polygon points="81.0,304.1 75.3,377.9 151.5,326.5" />
+  </g>
+  <!-- The phone in the middle -->
+  <rect x="186" y="136" width="140" height="240" rx="30" fill="#ffffff" />
+  <rect x="200" y="156" width="112" height="190" rx="14" fill="#0B2447" />
+  <circle cx="256" cy="251" r="22" fill="#3DDC84" />
+  <rect x="236" y="358" width="40" height="8" rx="4" fill="#0B2447" />
+</svg>

@@ -1,0 +1,38 @@
+appId: io.github.amahasin.droidsync
+productName: DroidSync
+copyright: Copyright © DroidSync contributors
+directories:
+  buildResources: build
+files:
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!vitest.config.mts'
+  - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md,RELEASING.md,PLAN.md}'
+  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+asarUnpack:
+  - resources/**
+win:
+  executableName: DroidSync
+  target:
+    - target: nsis
+      arch: x64
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  artifactName: DroidSync-${version}-setup.${ext}
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+npmRebuild: false
+# Releases are published to GitHub Releases. With this block, electron-builder writes
+# resources/app-update.yml into the build, which is what turns the in-app updater on, and it makes
+# latest.yml next to the setup file; both the setup file, its .blockmap and latest.yml go on the release.
+publish:
+  provider: github
+  owner: amahasin
+  repo: DroidSync
+  releaseType: release
+# Code signing is skipped until a certificate is configured (CSC_LINK / CSC_KEY_PASSWORD, or
+# win.signtoolOptions), so Windows SmartScreen will warn about the setup file.

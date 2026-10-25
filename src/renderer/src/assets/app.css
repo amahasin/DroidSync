@@ -1,0 +1,813 @@
+:root {
+  --bg: #f3f3f3;
+  --fg: #1b1b1b;
+  --muted: #5c5c5c;
+  --surface: rgba(255, 255, 255, 0.7);
+  --border: rgba(0, 0, 0, 0.12);
+  --accent: #005fb8;
+  --accent-fg: #ffffff;
+  --ok: #0f6b2f;
+  --ok-bg: rgba(15, 107, 47, 0.12);
+  --warn: #7a4d00;
+  --warn-bg: rgba(157, 93, 0, 0.14);
+  --bad: #a4262c;
+  --bad-bg: rgba(196, 43, 28, 0.12);
+  --neutral-bg: rgba(0, 0, 0, 0.07);
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #202020;
+    --fg: #f3f3f3;
+    --muted: #a8a8a8;
+    --surface: rgba(255, 255, 255, 0.06);
+    --border: rgba(255, 255, 255, 0.12);
+    --accent: #60cdff;
+    --accent-fg: #00253d;
+    --ok: #6ccb8b;
+    --ok-bg: rgba(108, 203, 139, 0.15);
+    --warn: #fce100;
+    --warn-bg: rgba(252, 225, 0, 0.12);
+    --bad: #ff99a4;
+    --bad-bg: rgba(255, 153, 164, 0.14);
+    --neutral-bg: rgba(255, 255, 255, 0.09);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  /* Solid colour until Mica shows through; the window material replaces it on Windows 11. */
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+  font-size: 14px;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.shell {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 32px;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+p {
+  margin: 4px 0;
+}
+
+code {
+  font-family: 'Cascadia Mono', Consolas, monospace;
+  font-size: 12.5px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.error {
+  color: var(--bad);
+}
+
+button {
+  font: inherit;
+  color: var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 14px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--neutral-bg);
+}
+
+button.primary {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: transparent;
+}
+
+button.primary:hover {
+  filter: brightness(1.08);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+progress {
+  width: 100%;
+  height: 6px;
+  margin-top: 8px;
+  accent-color: var(--accent);
+}
+
+.banner {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.banner-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.banner-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+button.link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.options {
+  margin-bottom: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0 16px;
+}
+
+.options > summary {
+  cursor: pointer;
+  padding: 12px 0;
+  font-weight: 600;
+}
+
+.options[open] > summary {
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+
+.group-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px 20px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 3px;
+}
+
+.field-bool {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
+  align-items: center;
+}
+
+.field-bool label {
+  order: 2;
+  margin: 0;
+}
+
+.field-bool input {
+  order: 1;
+}
+
+.field-bool .field-note {
+  order: 3;
+  grid-column: 2;
+}
+
+.field-note {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+}
+
+.field-note.unsupported {
+  font-style: italic;
+}
+
+input[type='text'],
+input[type='number'],
+select {
+  font: inherit;
+  color: var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  width: 100%;
+  max-width: 260px;
+}
+
+input[aria-invalid='true'] {
+  border-color: var(--bad);
+}
+
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.with-unit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.with-unit input {
+  width: 120px;
+}
+
+.preview {
+  /* Stays in view while scrolling through options, so changes show up in the command at once. */
+  position: sticky;
+  bottom: -24px;
+  margin: 16px -8px -24px;
+  padding: 12px 8px 24px;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+
+.preview-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.command,
+.log {
+  margin: 0;
+  padding: 10px 12px;
+  background: var(--neutral-bg);
+  border-radius: 6px;
+  font-family: 'Cascadia Mono', Consolas, monospace;
+  font-size: 12.5px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.log {
+  max-height: 220px;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+.device-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.device-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex: none;
+}
+
+.problem {
+  margin-top: 10px;
+}
+
+.log-toggle {
+  margin-top: 8px;
+  font-size: 12.5px;
+}
+
+.devices {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.device {
+  display: block;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.device-main {
+  min-width: 0;
+}
+
+.hint {
+  margin-top: 6px;
+  color: var(--warn);
+}
+
+.badge {
+  flex: none;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge.ok {
+  color: var(--ok);
+  background: var(--ok-bg);
+}
+
+.badge.warn {
+  color: var(--warn);
+  background: var(--warn-bg);
+}
+
+.badge.bad {
+  color: var(--bad);
+  background: var(--bad-bg);
+}
+
+.badge.neutral {
+  color: var(--muted);
+  background: var(--neutral-bg);
+}
+
+.empty {
+  padding: 32px 8px;
+}
+
+.steps {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.statusbar {
+  display: flex;
+  gap: 20px;
+  padding: 6px 32px;
+  font-size: 12.5px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Tabs ─────────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 10px 32px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.tabs [role='tab'] {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  padding: 8px 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.tabs [role='tab'][aria-selected='true'] {
+  color: var(--fg);
+  border-bottom-color: var(--accent);
+}
+
+.count {
+  margin-left: 6px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--ok-bg);
+  color: var(--ok);
+  font-size: 12px;
+}
+
+/* ── Preset bar and options view ──────────────────────── */
+.preset-bar {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+
+.preset-row select,
+.preset-row input[type='text'] {
+  width: auto;
+  min-width: 200px;
+}
+
+.preset-note {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.search {
+  flex: 1;
+  min-width: 240px;
+  max-width: none;
+  font: inherit;
+  color: var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 10px;
+}
+
+.search:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.check.inline {
+  margin-left: 2px;
+}
+
+.result-count {
+  margin: 4px 0 12px;
+  font-size: 12.5px;
+}
+
+.group {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  margin: 0 0 10px;
+  padding: 0 16px;
+}
+
+.group h2 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.group-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 12px 0;
+  font-weight: 600;
+}
+
+.group-toggle:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.group .group-fields {
+  padding-bottom: 12px;
+}
+
+.field-wide {
+  grid-column: 1 / -1;
+}
+
+.wide {
+  max-width: 560px;
+}
+
+.with-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.empty-note {
+  padding: 16px 0;
+}
+
+.preview-note {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+}
+
+/* ── Device cards ─────────────────────────────────────── */
+.device-preset {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.device-preset select {
+  width: auto;
+  min-width: 160px;
+}
+
+.bulk {
+  margin-bottom: 12px;
+}
+
+.bulk-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.bulk-errors {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+
+/* ── Wireless ─────────────────────────────────────────── */
+.card {
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.card h2 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 4px;
+}
+
+.form-row input[type='text'] {
+  width: auto;
+  min-width: 240px;
+}
+
+.form-row input.code {
+  min-width: 0;
+  width: 110px;
+  font-family: 'Cascadia Mono', Consolas, monospace;
+  letter-spacing: 0.15em;
+}
+
+.rows {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+}
+
+.row:first-child {
+  border-top: none;
+}
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+.ok-text {
+  color: var(--ok);
+  margin: 6px 0 0;
+}
+
+.warn-text {
+  color: var(--warn);
+  margin: 6px 0 0;
+}
+
+.device-wireless {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+/* ── Device tools: screenshot, send files, apps ───────── */
+.device.dragging {
+  outline: 2px dashed var(--accent);
+  outline-offset: -2px;
+}
+
+.device-tools {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.tool-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.drop-hint {
+  margin: 8px 0 0;
+  color: var(--accent);
+}
+
+.progress-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.progress-line progress {
+  flex: 1;
+  min-width: 80px;
+  max-width: 260px;
+}
+
+.transfer-results {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+.transfer-results li {
+  margin: 2px 0;
+}
+
+.app-launcher {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.app-list {
+  max-height: 260px;
+  overflow-y: auto;
+  margin: 8px 0 0;
+}
+
+.app-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ── Pickers in the options editor ────────────────────── */
+.source-picker {
+  margin-top: 6px;
+}
+
+.source-picker .form-row {
+  margin: 0 0 4px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.chips .camera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.chip {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12.5px;
+}
+
+.chip.small {
+  padding: 1px 8px;
+  font-size: 12px;
+}
+
+/* ── Captures ─────────────────────────────────────────── */
+.capture-main {
+  min-width: 0;
+}
+
+.capture-main strong {
+  overflow-wrap: anywhere;
+}
+
+.capture-meta {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+}
+
+.bad-text {
+  color: var(--bad);
+}
+
+.captures-view .row {
+  flex-wrap: wrap;
+}
+
+/* ── Settings ─────────────────────────────────────────── */
+.settings-view .check {
+  display: flex;
+  margin: 6px 0;
+}
+
+.hotkey-row {
+  align-items: flex-start;
+}
+
+.hotkey-input {
+  width: 190px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.report {
+  max-height: 340px;
+  overflow: auto;
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  font-family: 'Cascadia Mono', Consolas, monospace;
+  font-size: 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: var(--neutral-bg);
+  border-radius: 6px;
+}

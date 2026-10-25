@@ -1,0 +1,14 @@
+node_modules
+dist
+release
+out
+.DS_Store
+.eslintcache
+*.log*
+*.tsbuildinfo
+.env
+.env.*
+*.pfx
+*.p12
+# Internal planning notes with details about the developer's own machine and devices
+PLAN.md
